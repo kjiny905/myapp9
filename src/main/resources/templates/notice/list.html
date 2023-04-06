@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/main::main(
+        ~{::title},       <!--/* title */-->
+        <!--/*--------------------------*/-->
+        <!--/*외부파일로 정의시*/-->
+        ~{::link},              <!--/* styles */-->
+        ~{},              <!--/* scripts */-->
+        <!--/*내부태그로 정의시*/-->
+        ~{::style},              <!--/* style */-->
+        ~{::script},              <!--/* script */-->
+        <!--/*--------------------------*/-->
+        ~{::.upm-inner},  <!--/* upm */-->
+        ~{},      <!--/* header */-->
+        ~{::nav},         <!--/* nav */-->
+        ~{::main},        <!--/* main */-->
+        _                 <!--/* footer default*/-->
+      )}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항</title>
+  <link rel="stylesheet" href="../css/notice/common.css" th:href="@{/css/notice/common.css}">
+  <style>
+   /* div{ outline: 1px solid red; }*/
+    .cont{
+      display: grid;
+      grid-template-columns: 50px 1fr 100px 100px 70px;
+      grid-auto-rows: 2em;
+    }
+    .btn-grp{
+      display: flex;
+      justify-content: flex-end;
+    }
+
+  </style>
+</head>
+<body>
+<div class="global-wrap">
+  <div class="upm">
+    <div class="inner upm-inner">
+      <th:block th:replace="~{fragment/uppermost::afterLoginUpm}"></th:block>
+    </div>
+  </div>
+  <div class="hdr">
+    <div class="inner hdr-inner">
+      <header>header</header>
+    </div>
+  </div>
+  <div class="gnb">
+    <div class="inner gnb-inner">
+      <nav th:replace="~{fragment/menu::global}"></nav>
+    </div>
+  </div>
+  <div class="main">
+    <div class="inner main-inner">
+      <main>
+        <div class="wrap">
+          <div class="content">
+            <h3>공지사항 목록</h3>
+            <hr>
+            <div class="cont">
+              <div class="col">NO</div>
+              <div class="col">제목</div>
+              <div class="col">작성일</div>
+              <div class="col">작성시간</div>
+              <div class="col">조회수</div>
+
+              <th:block th:each="item : ${notices}">
+                <div class="col" th:text="${item.noticeId}">1</div>
+                <!--        <div class="col" th:text="${itemStat.size-itemStat.index}">1</div>-->
+                <div class="col" >
+                  <a href="" th:href="@{|/notices/${item.noticeId}/detail|}" th:text="${item.subject}">제목1</a>
+                </div>
+                <div class="col" th:text="${item.cdate}">2022/02/22</div>
+                <div class="col" th:text="${item.ctime}">2022/02/22</div>
+                <div class="col" th:text="${item.hit}">10</div>
+              </th:block>
+            </div>
+            <div class="btn-grp">
+              <button type="button" id="writeBtn">작성</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="foot">
+      <div class="inner foot-inner">
+        <footer>
+          footer
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    const $writeBtn = document.getElementById('writeBtn');
+    $writeBtn.addEventListener('click',()=>{
+      const url = `/notices`;
+      location.href = url
+    });
+  </script>
+</body>
+</html>
